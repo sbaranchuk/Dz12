@@ -37,6 +37,9 @@ class ViewController: UIViewController {
         return stack
     }()
 
+    var circularProgressBarView: CircularProgressBarView!
+    var circularViewDuration: TimeInterval = 10
+
     // MARK: - LifeCycle
 
     override func viewDidLoad() {
@@ -54,6 +57,7 @@ class ViewController: UIViewController {
 
     private func setupHierarchy() {
         view.addSubview(labelButtonStack)
+        setUpCircularProgressBarView()
     }
 
     private func setupLayout() {
@@ -61,9 +65,25 @@ class ViewController: UIViewController {
             make.centerX.equalTo(view)
             make.centerY.equalTo(view)
         }
+
+        circularProgressBarView.snp.makeConstraints { make in
+            make.centerX.equalTo(view)
+            make.centerY.equalTo(view)
+        }
     }
 
     // MARK: - Actions
+
+    func setUpCircularProgressBarView() {
+        // set view
+        circularProgressBarView = CircularProgressBarView(frame: .zero)
+        // create CircularPath
+        circularProgressBarView.createCircularPath()
+        // call the animation with circularViewDuration
+        circularProgressBarView.progressAnimation(duration: circularViewDuration)
+        // add this view to the view controller
+        view.addSubview(circularProgressBarView)
+    }
 
 }
 
