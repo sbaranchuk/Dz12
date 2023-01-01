@@ -15,11 +15,11 @@ class ViewController: UIViewController {
     private var isWorkTime = true
     private var isStarted = false
 
-    private var amountWorkingTime = 15
-    private var amountRestTime = 5
+    private var amountWorkingTime = 25
+    private var amountRestTime = 10
 
     private var timer = Timer()
-    private var time = 15
+    private var time = 25
     private var accurateTimerCount = 1000
 
     // MARK: - UI Elements
@@ -28,7 +28,7 @@ class ViewController: UIViewController {
         let label = UILabel()
         label.text = "00:00"
         label.textColor = UIColor.systemGray
-        label.font = UIFont.systemFont(ofSize: 60, weight: .bold)
+        label.font = UIFont.systemFont(ofSize: 60, weight: .medium)
         return label
     }()
 
@@ -92,9 +92,7 @@ class ViewController: UIViewController {
         // set view
         circularProgressBarView = CircularProgressBarView(frame: .zero)
         // create CircularPath
-        circularProgressBarView.createCircularPath()
-        // call the animation with circularViewDuration
-        circularProgressBarView.progressAnimation(duration: circularViewDuration)
+        circularProgressBarView.createCircularPath(tintColor: UIColor.green.cgColor)
         // add this view to the view controller
         view.addSubview(circularProgressBarView)
     }
@@ -104,9 +102,13 @@ class ViewController: UIViewController {
             isStarted = true
             startTimer()
             startStopButton.setImage(UIImage(systemName: "pause"), for: .normal)
-            // добавить включение анимации
+            circularProgressBarView.progressAnimation(duration: TimeInterval(time))
         } else {
             timer.invalidate()
+            if let presentation = circularProgressBarView.progressLayer.presentation() {
+                circularProgressBarView.progressLayer.strokeEnd = presentation.strokeEnd
+            }
+            circularProgressBarView.progressLayer.removeAnimation(forKey: "progressAnim")
             isStarted = false
             startStopButton.setImage(UIImage(systemName: "play"), for: .normal)
         }
@@ -129,6 +131,7 @@ class ViewController: UIViewController {
     }
 
     @objc func updateTimer() {
+        setupTime()
         if accurateTimerCount > 0 {
             accurateTimerCount -= 1
             return
@@ -136,23 +139,31 @@ class ViewController: UIViewController {
 
         accurateTimerCount = 1000
 
-        if time < 1 {
+        if time == 0 {
             changeOperatingMode()
+            return
         }
+
         time -= 1
         setupTime()
     }
 
     func changeOperatingMode() {
+        accurateTimerCount = 1000
         if isWorkTime {
-            // добавить метод смены цвета интерфейса
             isWorkTime = false
             time = amountRestTime
+            setupTime()
+            circularProgressBarView.createCircularPath(tintColor: UIColor.white.cgColor)
+            circularProgressBarView.progressAnimation(duration: TimeInterval(time))
         } else {
-            // добавить метод смены цвета интерфейса
             isWorkTime = true
             time = amountWorkingTime
+            setupTime()
+            circularProgressBarView.createCircularPath(tintColor: UIColor.green.cgColor)
+            circularProgressBarView.progressAnimation(duration: TimeInterval(time))
         }
+        clockFaceLable.text = formatTimer()
     }
 
 }

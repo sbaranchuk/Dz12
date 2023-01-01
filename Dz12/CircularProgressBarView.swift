@@ -8,23 +8,23 @@
 import UIKit
 
 class CircularProgressBarView: UIView {
-
+    
     // MARK: - properties
-
+    
     private var circleLayer = CAShapeLayer()
-    private var progressLayer = CAShapeLayer()
+    var progressLayer = CAShapeLayer()
     private var startPoint = CGFloat(-Double.pi / 2)
     private var endPoint = CGFloat(3 * Double.pi / 2)
-
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
     }
-
+    
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
-
-    func createCircularPath() {
+    
+    func createCircularPath(tintColor: CGColor) {
         // created circularPath for circleLayer and progressLayer
         let circularPath = UIBezierPath(arcCenter: CGPoint(x: frame.size.width / 2.0, y: frame.size.height / 2.0), radius: 160, startAngle: startPoint, endAngle: endPoint, clockwise: true)
         // circleLayer path defined to circularPath
@@ -44,11 +44,11 @@ class CircularProgressBarView: UIView {
         progressLayer.lineCap = .round
         progressLayer.lineWidth = 10.0
         progressLayer.strokeEnd = 0
-        progressLayer.strokeColor = UIColor.green.cgColor
+        progressLayer.strokeColor = tintColor
         // added progressLayer to layer
         layer.addSublayer(progressLayer)
     }
-
+    
     func progressAnimation(duration: TimeInterval) {
         // created circularProgressAnimation with keyPath
         let circularProgressAnimation = CABasicAnimation(keyPath: "strokeEnd")
@@ -59,5 +59,13 @@ class CircularProgressBarView: UIView {
         circularProgressAnimation.isRemovedOnCompletion = false
         progressLayer.add(circularProgressAnimation, forKey: "progressAnim")
     }
-
+    
+    func changeColorGreen() {
+        self.progressLayer.strokeColor = UIColor.green.cgColor
+    }
+    
+    func changeColorWhite() {
+        self.progressLayer.strokeColor = UIColor.white.cgColor
+    }
+    
 }
