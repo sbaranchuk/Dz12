@@ -10,6 +10,14 @@ import SnapKit
 
 class ViewController: UIViewController {
 
+    // MARK: - Properties
+
+    private var isWorkTime = true
+    private var isStarted = false
+
+    private var timer = Timer()
+    private var time = 25
+
     // MARK: - UI Elements
 
     private lazy var clockFaceLable: UILabel = {
@@ -25,6 +33,7 @@ class ViewController: UIViewController {
         button.setImage(UIImage(systemName: "play.circle.fill"), for: .normal)
         button.tintColor = UIColor.systemGray
         button.setPreferredSymbolConfiguration(UIImage.SymbolConfiguration(pointSize: 60), forImageIn: .normal)
+        button.addTarget(self, action: #selector(startAndStopTimer), for: .touchUpInside)
         return button
     }()
 
@@ -85,5 +94,15 @@ class ViewController: UIViewController {
         view.addSubview(circularProgressBarView)
     }
 
-}
+    @objc func startAndStopTimer() {
+    }
 
+    func formatTimer() -> String {
+        let time = Double(time)
+        let formatter = DateComponentsFormatter()
+        formatter.zeroFormattingBehavior = .pad
+        formatter.allowedUnits = [.minute, .second]
+        return formatter.string(from: time) ?? "00:00"
+    }
+
+}
