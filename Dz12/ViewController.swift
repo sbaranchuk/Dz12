@@ -56,6 +56,7 @@ class ViewController: UIViewController {
         setupView()
         setupHierarchy()
         setupLayout()
+        setupTime()
     }
 
     // MARK: - Setups
@@ -103,6 +104,10 @@ class ViewController: UIViewController {
         formatter.zeroFormattingBehavior = .pad
         formatter.allowedUnits = [.minute, .second]
         return formatter.string(from: time) ?? "00:00"
+    }
+
+    func setupTime() {
+        clockFaceLable.text = formatTimer()
     }
 
 }
