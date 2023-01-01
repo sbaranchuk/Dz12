@@ -34,10 +34,10 @@ class ViewController: UIViewController {
 
     private lazy var startStopButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setImage(UIImage(systemName: "play.circle.fill"), for: .normal)
+        button.setImage(UIImage(systemName: "play"), for: .normal)
         button.tintColor = UIColor.systemGray
         button.setPreferredSymbolConfiguration(UIImage.SymbolConfiguration(pointSize: 60), forImageIn: .normal)
-        button.addTarget(self, action: #selector(startTimer), for: .touchUpInside)
+        button.addTarget(self, action: #selector(startAndStopTimer), for: .touchUpInside)
         return button
     }()
 
@@ -100,7 +100,16 @@ class ViewController: UIViewController {
     }
 
     @objc func startAndStopTimer() {
-        startTimer()
+        if !isStarted {
+            isStarted = true
+            startTimer()
+            startStopButton.setImage(UIImage(systemName: "pause"), for: .normal)
+            // добавить включение анимации
+        } else {
+            timer.invalidate()
+            isStarted = false
+            startStopButton.setImage(UIImage(systemName: "play"), for: .normal)
+        }
     }
 
     func formatTimer() -> String {
