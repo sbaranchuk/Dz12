@@ -17,6 +17,7 @@ class ViewController: UIViewController {
 
     private var timer = Timer()
     private var time = 25
+    private var accurateTimerCount = 1000
 
     // MARK: - UI Elements
 
@@ -33,7 +34,7 @@ class ViewController: UIViewController {
         button.setImage(UIImage(systemName: "play.circle.fill"), for: .normal)
         button.tintColor = UIColor.systemGray
         button.setPreferredSymbolConfiguration(UIImage.SymbolConfiguration(pointSize: 60), forImageIn: .normal)
-        button.addTarget(self, action: #selector(startAndStopTimer), for: .touchUpInside)
+        button.addTarget(self, action: #selector(startTimer), for: .touchUpInside)
         return button
     }()
 
@@ -108,6 +109,25 @@ class ViewController: UIViewController {
 
     func setupTime() {
         clockFaceLable.text = formatTimer()
+    }
+
+    @objc func startTimer() {
+        timer = Timer.scheduledTimer(timeInterval: 0.001, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
+    }
+
+    @objc func updateTimer() {
+        if accurateTimerCount > 0 {
+            accurateTimerCount -= 1
+            return
+        }
+        accurateTimerCount = 1000
+
+        if time < 1 {
+            // дописать метод смены интерфейса
+        }
+
+        time -= 1
+        setupTime()
     }
 
 }
