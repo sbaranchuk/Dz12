@@ -10,6 +10,18 @@ import SnapKit
 
 class ViewController: UIViewController {
 
+    // MARK: - Properties
+
+    private var isWorkTime = true
+    private var isStarted = false
+
+    private var amountWorkingTime = 15
+    private var amountRestTime = 5
+
+    private var timer = Timer()
+    private var time = 15
+    private var accurateTimerCount = 1000
+
     // MARK: - UI Elements
 
     private lazy var clockFaceLable: UILabel = {
@@ -22,9 +34,10 @@ class ViewController: UIViewController {
 
     private lazy var startStopButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setImage(UIImage(systemName: "play.circle.fill"), for: .normal)
+        button.setImage(UIImage(systemName: "play"), for: .normal)
         button.tintColor = UIColor.systemGray
         button.setPreferredSymbolConfiguration(UIImage.SymbolConfiguration(pointSize: 60), forImageIn: .normal)
+        button.addTarget(self, action: #selector(startAndStopTimer), for: .touchUpInside)
         return button
     }()
 
@@ -47,6 +60,7 @@ class ViewController: UIViewController {
         setupView()
         setupHierarchy()
         setupLayout()
+        setupTime()
     }
 
     // MARK: - Setups
@@ -85,5 +99,60 @@ class ViewController: UIViewController {
         view.addSubview(circularProgressBarView)
     }
 
-}
+    @objc func startAndStopTimer() {
+        if !isStarted {
+            isStarted = true
+            startTimer()
+            startStopButton.setImage(UIImage(systemName: "pause"), for: .normal)
+            // добавить включение анимации
+        } else {
+            timer.invalidate()
+            isStarted = false
+            startStopButton.setImage(UIImage(systemName: "play"), for: .normal)
+        }
+    }
 
+    func formatTimer() -> String {
+        let time = Double(time)
+        let formatter = DateComponentsFormatter()
+        formatter.zeroFormattingBehavior = .pad
+        formatter.allowedUnits = [.minute, .second]
+        return formatter.string(from: time) ?? "00:00"
+    }
+
+    func setupTime() {
+        clockFaceLable.text = formatTimer()
+    }
+
+    @objc func startTimer() {
+        timer = Timer.scheduledTimer(timeInterval: 0.001, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
+    }
+
+    @objc func updateTimer() {
+        if accurateTimerCount > 0 {
+            accurateTimerCount -= 1
+            return
+        }
+
+        accurateTimerCount = 1000
+
+        if time < 1 {
+            changeOperatingMode()
+        }
+        time -= 1
+        setupTime()
+    }
+
+    func changeOperatingMode() {
+        if isWorkTime {
+            // добавить метод смены цвета интерфейса
+            isWorkTime = false
+            time = amountRestTime
+        } else {
+            // добавить метод смены цвета интерфейса
+            isWorkTime = true
+            time = amountWorkingTime
+        }
+    }
+
+}
