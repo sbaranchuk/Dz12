@@ -15,8 +15,11 @@ class ViewController: UIViewController {
     private var isWorkTime = true
     private var isStarted = false
 
+    private var amountWorkingTime = 15
+    private var amountRestTime = 5
+
     private var timer = Timer()
-    private var time = 25
+    private var time = 15
     private var accurateTimerCount = 1000
 
     // MARK: - UI Elements
@@ -97,6 +100,7 @@ class ViewController: UIViewController {
     }
 
     @objc func startAndStopTimer() {
+        startTimer()
     }
 
     func formatTimer() -> String {
@@ -120,14 +124,26 @@ class ViewController: UIViewController {
             accurateTimerCount -= 1
             return
         }
+
         accurateTimerCount = 1000
 
         if time < 1 {
-            // дописать метод смены интерфейса
+            changeOperatingMode()
         }
-
         time -= 1
         setupTime()
+    }
+
+    func changeOperatingMode() {
+        if isWorkTime {
+            // добавить метод смены цвета интерфейса
+            isWorkTime = false
+            time = amountRestTime
+        } else {
+            // добавить метод смены цвета интерфейса
+            isWorkTime = true
+            time = amountWorkingTime
+        }
     }
 
 }
