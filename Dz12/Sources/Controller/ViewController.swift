@@ -182,5 +182,4 @@ class ViewController: UIViewController {
         startStopButton.tintColor = UIColor.white
         circularProgressBarView.changeColorWhite()
     }
-
 }
