@@ -60,8 +60,6 @@
 			children = (
 				84479076295DF44E00BE53FB /* Resources */,
 				84479077295DF47100BE53FB /* Sources */,
-				84479066295DF23300BE53FB /* ViewController.swift */,
-				8447907C295E1E1D00BE53FB /* CircularProgressBarView.swift */,
 			);
 			path = Dz12;
 			sourceTree = "<group>";
@@ -79,7 +77,9 @@
 		84479077295DF47100BE53FB /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				846938FF296879CA00AFEC12 /* View */,
 				84479078295DF48D00BE53FB /* App */,
+				846938FE296879BD00AFEC12 /* Controller */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -91,6 +91,22 @@
 				84479064295DF23300BE53FB /* SceneDelegate.swift */,
 			);
 			path = App;
+			sourceTree = "<group>";
+		};
+		846938FE296879BD00AFEC12 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				84479066295DF23300BE53FB /* ViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		846938FF296879CA00AFEC12 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				8447907C295E1E1D00BE53FB /* CircularProgressBarView.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

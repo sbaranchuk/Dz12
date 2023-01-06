@@ -67,5 +67,4 @@ class CircularProgressBarView: UIView {
     func changeColorWhite() {
         self.progressLayer.strokeColor = UIColor.white.cgColor
     }
-    
 }
