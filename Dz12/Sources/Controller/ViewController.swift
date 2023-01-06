@@ -61,6 +61,7 @@ class ViewController: UIViewController {
         setupHierarchy()
         setupLayout()
         setupTime()
+        changeColorGreen()
     }
 
     // MARK: - Setups
@@ -158,16 +159,28 @@ class ViewController: UIViewController {
             isWorkTime = false
             time = amountRestTime
             setupTime()
-            circularProgressBarView.createCircularPath(tintColor: UIColor.white.cgColor)
+            changeColorWhite()
             circularProgressBarView.progressAnimation(duration: TimeInterval(time))
         } else {
             isWorkTime = true
             time = amountWorkingTime
             setupTime()
-            circularProgressBarView.createCircularPath(tintColor: UIColor.green.cgColor)
+            changeColorGreen()
             circularProgressBarView.progressAnimation(duration: TimeInterval(time))
         }
         setupTime()
+    }
+
+    func changeColorGreen() {
+        clockFaceLable.textColor = UIColor.green
+        startStopButton.tintColor = UIColor.green
+        circularProgressBarView.changeColorGreen()
+    }
+
+    func changeColorWhite() {
+        clockFaceLable.textColor = UIColor.white
+        startStopButton.tintColor = UIColor.white
+        circularProgressBarView.changeColorWhite()
     }
 
 }
