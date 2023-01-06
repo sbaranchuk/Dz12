@@ -15,11 +15,11 @@ class ViewController: UIViewController {
     private var isWorkTime = true
     private var isStarted = false
 
-    private var amountWorkingTime = 25
-    private var amountRestTime = 10
+    private var amountWorkingTime = 10
+    private var amountRestTime = 5
 
     private var timer = Timer()
-    private var time = 25
+    private var time = 10
     private var accurateTimerCount = 1000
 
     // MARK: - UI Elements
@@ -141,6 +141,10 @@ class ViewController: UIViewController {
 
         if time == 0 {
             changeOperatingMode()
+            timer.invalidate()
+            circularProgressBarView.progressLayer.removeAnimation(forKey: "progressAnim")
+            startStopButton.setImage(UIImage(systemName: "play"), for: .normal)
+            isStarted = false
             return
         }
 
@@ -163,7 +167,7 @@ class ViewController: UIViewController {
             circularProgressBarView.createCircularPath(tintColor: UIColor.green.cgColor)
             circularProgressBarView.progressAnimation(duration: TimeInterval(time))
         }
-        clockFaceLable.text = formatTimer()
+        setupTime()
     }
 
 }
