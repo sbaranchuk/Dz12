@@ -15,11 +15,11 @@ class ViewController: UIViewController {
     private var isWorkTime = true
     private var isStarted = false
 
-    private var amountWorkingTime = 10
-    private var amountRestTime = 5
+    private var amountWorkingTime = 25
+    private var amountRestTime = 10
 
     private var timer = Timer()
-    private var time = 10
+    private var time = 25
     private var accurateTimerCount = 1000
 
     // MARK: - UI Elements
